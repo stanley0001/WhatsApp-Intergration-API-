@@ -27,7 +27,11 @@ public class MessageController {
         communicationService.processWhatsappInbox(req);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @PostMapping("/callBack")
+    public ResponseEntity<?> callBackForward(@RequestBody String req) throws JSONException {
+        communicationService.fowardCallback(req);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @GetMapping("/whatsappIncoming")
     public ResponseEntity<?> whatsappGet(@RequestParam(name = "hub.challenge")  String hubChallenge,@RequestParam(name = "hub.mode") String hubMode,  @RequestParam(name = "hub.verify_token")  String hubAccessToken) {
 

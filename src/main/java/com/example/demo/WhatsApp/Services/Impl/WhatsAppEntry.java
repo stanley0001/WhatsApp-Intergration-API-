@@ -7,7 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -244,6 +243,11 @@ public class WhatsAppEntry implements CommunicationService {
             log.warn("Consumer with id {} not present",instanceId);
         }
     }
+    //express callback
+    public  void fowardCallback(String req){
+        log.info("processing daraja response: {}",req);
+        this.callBack("http://localhost:30003/mpesa/callbackListener",req);
+    }
     //call back implementation
     @Async
     public void callBack(String url,Object callBAckData){
@@ -305,7 +309,7 @@ public class WhatsAppEntry implements CommunicationService {
             }
         }
     }
-    private void ProcessingStatus(@NotNull OutBoxRequest messageRequest, Consumer consumer) {
+    private void ProcessingStatus(OutBoxRequest messageRequest, Consumer consumer) {
         sendFaceBookMessage(consumer.getInstanceId(), messageRequest.getRecipients(), messageRequest.getMessage());
         try {
             messageRequest.setStatus("PROCESSED");

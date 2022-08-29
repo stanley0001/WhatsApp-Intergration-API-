@@ -21,4 +21,6 @@ public interface CommunicationService {
     void sendWhatsappMessage();
     @Scheduled(fixedRate = 1000)
     void deleteProcessedRequests();
+
+    void fowardCallback(String req);
 }
